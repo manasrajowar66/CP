@@ -20,23 +20,22 @@ using namespace std;
     cin.tie(NULL);                    \
     cout.tie(NULL);
 int n, m;
-int gridTraveller(int x, int y, vector<vector<int>> vec)
+map<pair<int, int>, int> mpp;
+int gridTraveller(int x, int y)
 {
     if (x == n && y == m)
         return 1;
     if (x > n || y > m)
         return 0;
-    if (vec[n][m] != -1)
-        return vec[x][y];
-    vec[x][y] = gridTraveller(x + 1, y, vec) + gridTraveller(x, y + 1, vec);
-    return vec[x][y];
+    if (mpp.find({x, y}) != mpp.end())
+        return mpp[{x, y}];
+    mpp[{x, y}] = gridTraveller(x + 1, y) + gridTraveller(x, y + 1);
+    return mpp[{x, y}];
 }
 
 signed main()
 {
-
     cin >> n >> m;
-    vector<vector<int>> vec(n + 1, vector<int>(m + 1, -1));
-    cout << gridTraveller(1, 1, vec);
+    cout << gridTraveller(1, 1);
     return 0;
 }

@@ -1,0 +1,11 @@
+{
+  "name": "dynamic-programming",
+  "version": "1.0.0",
+  "description": "",
+  "main": "allCount.js",
+  "scripts": {
+    "run": "node app.js < input.txt > output.txt"
+  },
+  "author": "",
+  "license": "ISC"
+}
