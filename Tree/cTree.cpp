@@ -15,7 +15,7 @@ using namespace std;
 #define Mod 1000000007
 int power(int, int);
 bool isPrime(int);
-int preInd = 0;
+
 // Initilize Struct Node
 struct Node
 {
@@ -115,6 +115,7 @@ int diameterBT(Node *root)
 }
 
 //Construct a BT
+int preInd = 0;
 Node *cTree(int in[], int pre[], int start, int end)
 {
     if (start > end)
