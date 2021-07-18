@@ -45,12 +45,24 @@ void setSeive()
     }
 }
 
-void segmentedSeive(int l, int r)
+int segmentedSeive(int l, int r, int k)
 {
-    if (l == 1)
-        l++;
+    // if (l == 1)
+    //     l++;
     int maxN = r - l + 1;
-    vi arr(maxN, 1);
+    int *arr = new int[maxN];
+    int *arr2 = new int[maxN];
+    vector<int> vec;
+    for (int i = 0; i < maxN; i++)
+    {
+        arr[i] = l + i;
+        arr2[i] = l + i;
+    }
+    // for (int i = 0; i < maxN; i++)
+    // {
+    //     cout << arr2[i] << " ";
+    // }
+    // cout << endl;
     for (auto p : primes)
     {
         if (p * p <= r)
@@ -60,30 +72,45 @@ void segmentedSeive(int l, int r)
                 i += p;
             for (; i <= r; i += p)
             {
-                if (i != p)
+                arr[i - l] /= p;
+                arr[i - l] *= (p - 1);
+                while ((arr2[i - l] % p) == 0)
                 {
-                    arr[i - l] = 0;
+                    arr2[i - l] /= p;
                 }
             }
         }
     }
     for (int i = 0; i < maxN; i++)
     {
-        if (arr[i])
+        if (arr2[i] != 1)
         {
-            cout << i + l << " ";
+            arr[i] = arr[i] / arr2[i];
+            arr[i] = arr[i] * (arr2[i] - 1);
         }
     }
+    int count = 0;
+    for (int i = 0; i < maxN; i++)
+    {
+        if (arr[i] % k == 0)
+        {
+            count++;
+        }
+    }
+    delete[] arr;
+    delete[] arr2;
+    return count;
 }
 signed main()
 {
     setSeive();
     tci()
     {
-        int l, r;
-        cin >> l >> r;
-        segmentedSeive(l, r);
-        cout << endl;
+        int l, r, k;
+        cin >> l >> r >> k;
+        std::cout << std::fixed;
+        std::cout << std::setprecision(6);
+        cout << (double)segmentedSeive(l, r, k) / (double)(r - l + 1) << endl;
     }
 
     return 0;

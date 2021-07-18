@@ -1,5 +1,3 @@
-// Eular totirnt function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -17,70 +15,48 @@ using namespace std;
 #define Mod 1000000007
 int power(int, int);
 bool isPrime(int);
-int phi[1000001];
-
-void setSeive()
-{
-    for (int i = 1; i < 1000001; i++)
-        phi[i] = i;
-    for (int i = 2; i <= 1000000; i++)
-    {
-        if (phi[i] == i)
-        {
-            for (int j = i; j <= 1000000; j += i)
-            {
-                phi[j] /= i;
-                phi[j] *= (i - 1);
-            }
-        }
-    }
-}
-
-//O(sqrt(n))
-int findCoprimes(int n)
-{
-    int ans = n;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans /= i;
-            ans *= (i - 1);
-            while (n % i == 0)
-            {
-                n /= i;
-            }
-        }
-    }
-    if (n > 1)
-    {
-        ans /= n;
-        ans *= (n - 1);
-    }
-    return ans;
-}
-
-// O(Nlog(log(N)))
-
-void findCoprimes2(int a, int b)
-{
-    for (int i = a; i <= b; i++)
-    {
-        cout << phi[i] << " ";
-    }
-    cout << endl;
-}
 
 signed main()
 {
-    setSeive();
     tci()
     {
-        int a, b;
-        cin >> a >> b;
-
-        findCoprimes2(a, b);
+        int n, d;
+        cin >> n >> d;
+        int *arr = new int[d + 1];
+        for (int i = d; i > 0; i--)
+        {
+            if (i != 1 && n - 9 == 0)
+            {
+                arr[i] = 8;
+                n -= 8;
+            }
+            else if (i != 1 && n - 9 < 0 && n > 1)
+            {
+                arr[i] = n - 1;
+                n = 1;
+            }
+            else if (i != 1 && n - 9 > 0)
+            {
+                arr[i] = 9;
+                n -= 9;
+            }
+            else if (i != 1 && n - 9 < 0 && n == 1)
+            {
+                arr[i] = 0;
+            }
+            else if (i == 1)
+            {
+                arr[i] = n;
+                n = 0;
+            }
+        }
+        for (int i = 1; i <= d; i++)
+        {
+            cout << arr[i];
+        }
+        cout << endl;
     }
+
     return 0;
 }
 

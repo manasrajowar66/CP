@@ -1,5 +1,3 @@
-// Eular totirnt function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -15,71 +13,44 @@ using namespace std;
     while (t--)
 #define endl "\n"
 #define Mod 1000000007
+#define ss second
+#define ff first
 int power(int, int);
 bool isPrime(int);
-int phi[1000001];
-
-void setSeive()
-{
-    for (int i = 1; i < 1000001; i++)
-        phi[i] = i;
-    for (int i = 2; i <= 1000000; i++)
-    {
-        if (phi[i] == i)
-        {
-            for (int j = i; j <= 1000000; j += i)
-            {
-                phi[j] /= i;
-                phi[j] *= (i - 1);
-            }
-        }
-    }
-}
-
-//O(sqrt(n))
-int findCoprimes(int n)
-{
-    int ans = n;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans /= i;
-            ans *= (i - 1);
-            while (n % i == 0)
-            {
-                n /= i;
-            }
-        }
-    }
-    if (n > 1)
-    {
-        ans /= n;
-        ans *= (n - 1);
-    }
-    return ans;
-}
-
-// O(Nlog(log(N)))
-
-void findCoprimes2(int a, int b)
-{
-    for (int i = a; i <= b; i++)
-    {
-        cout << phi[i] << " ";
-    }
-    cout << endl;
-}
 
 signed main()
 {
-    setSeive();
     tci()
     {
-        int a, b;
-        cin >> a >> b;
-
-        findCoprimes2(a, b);
+        int n;
+        cin >> n;
+        vector<pair<int, int>> arr;
+        for (int i = 0; i < n; i++)
+        {
+            int x;
+            cin >> x;
+            arr.push_back({x, i});
+        }
+        sort(arr.begin(), arr.end());
+        int inversion = 0;
+        bool fl = true;
+        for (int i = 0; i < n; i++)
+        {
+            if (abs(arr[i].ss - i) % 2)
+            {
+                fl = false;
+                break;
+            }
+            inversion += abs(arr[i].ss - i);
+        }
+        if (fl == false)
+        {
+            cout << "NO" << endl;
+        }
+        else
+        {
+            cout << "YES" << endl;
+        }
     }
     return 0;
 }

@@ -1,5 +1,3 @@
-// Eular totirnt function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -15,19 +13,22 @@ using namespace std;
     while (t--)
 #define endl "\n"
 #define Mod 1000000007
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(0);
 int power(int, int);
 bool isPrime(int);
-int phi[1000001];
+int phi[100001];
 
 void setSeive()
 {
-    for (int i = 1; i < 1000001; i++)
+    for (int i = 1; i < 100001; i++)
         phi[i] = i;
-    for (int i = 2; i <= 1000000; i++)
+    for (int i = 2; i <= 100000; i++)
     {
         if (phi[i] == i)
         {
-            for (int j = i; j <= 1000000; j += i)
+            for (int j = i; j <= 100000; j += i)
             {
                 phi[j] /= i;
                 phi[j] *= (i - 1);
@@ -36,51 +37,34 @@ void setSeive()
     }
 }
 
-//O(sqrt(n))
-int findCoprimes(int n)
-{
-    int ans = n;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans /= i;
-            ans *= (i - 1);
-            while (n % i == 0)
-            {
-                n /= i;
-            }
-        }
-    }
-    if (n > 1)
-    {
-        ans /= n;
-        ans *= (n - 1);
-    }
-    return ans;
-}
-
-// O(Nlog(log(N)))
-
-void findCoprimes2(int a, int b)
-{
-    for (int i = a; i <= b; i++)
-    {
-        cout << phi[i] << " ";
-    }
-    cout << endl;
-}
-
 signed main()
 {
+
     setSeive();
+    int *arr = new int[100001];
+    for (int i = 0; i <= 100000; i++)
+    {
+        arr[i] = 0;
+    }
+    for (int i = 1; i <= 100000; i++)
+    {
+        for (int j = 2; j * i <= 100000; j++)
+        {
+            arr[i * j] += (i * phi[j]);
+        }
+    }
     tci()
     {
-        int a, b;
-        cin >> a >> b;
-
-        findCoprimes2(a, b);
+        int n;
+        cin >> n;
+        int G = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            G += arr[i];
+        }
+        cout << G << endl;
     }
+    delete[] arr;
     return 0;
 }
 

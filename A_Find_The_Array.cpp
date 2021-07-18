@@ -1,5 +1,3 @@
-// Eular totirnt function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -17,69 +15,27 @@ using namespace std;
 #define Mod 1000000007
 int power(int, int);
 bool isPrime(int);
-int phi[1000001];
-
-void setSeive()
-{
-    for (int i = 1; i < 1000001; i++)
-        phi[i] = i;
-    for (int i = 2; i <= 1000000; i++)
-    {
-        if (phi[i] == i)
-        {
-            for (int j = i; j <= 1000000; j += i)
-            {
-                phi[j] /= i;
-                phi[j] *= (i - 1);
-            }
-        }
-    }
-}
-
-//O(sqrt(n))
-int findCoprimes(int n)
-{
-    int ans = n;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            ans /= i;
-            ans *= (i - 1);
-            while (n % i == 0)
-            {
-                n /= i;
-            }
-        }
-    }
-    if (n > 1)
-    {
-        ans /= n;
-        ans *= (n - 1);
-    }
-    return ans;
-}
-
-// O(Nlog(log(N)))
-
-void findCoprimes2(int a, int b)
-{
-    for (int i = a; i <= b; i++)
-    {
-        cout << phi[i] << " ";
-    }
-    cout << endl;
-}
 
 signed main()
 {
-    setSeive();
     tci()
     {
-        int a, b;
-        cin >> a >> b;
-
-        findCoprimes2(a, b);
+        int n, sum = 1;
+        cin >> n;
+        if (n == 1)
+        {
+            cout << 1 << endl;
+        }
+        else
+        {
+            int count = 1;
+            for (int i = 3; sum < n; i += 2)
+            {
+                sum += i;
+                count++;
+            }
+            cout << count << endl;
+        }
     }
     return 0;
 }

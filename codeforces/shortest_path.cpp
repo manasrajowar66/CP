@@ -1,5 +1,3 @@
-// Eular totirnt function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
@@ -17,69 +15,56 @@ using namespace std;
 #define Mod 1000000007
 int power(int, int);
 bool isPrime(int);
-int phi[1000001];
+int x2, y2, f1, f2;
+int dp[1001][1001];
 
-void setSeive()
+int shortest_path(int x1, int y1)
 {
-    for (int i = 1; i < 1000001; i++)
-        phi[i] = i;
-    for (int i = 2; i <= 1000000; i++)
+    int res = INT_MAX;
+    if (x1 == x2 && y1 == y2)
     {
-        if (phi[i] == i)
-        {
-            for (int j = i; j <= 1000000; j += i)
-            {
-                phi[j] /= i;
-                phi[j] *= (i - 1);
-            }
-        }
+        return 1;
     }
-}
-
-//O(sqrt(n))
-int findCoprimes(int n)
-{
-    int ans = n;
-    for (int i = 2; i * i <= n; i++)
+    if (x1 == f1 && y1 == f2)
     {
-        if (n % i == 0)
-        {
-            ans /= i;
-            ans *= (i - 1);
-            while (n % i == 0)
-            {
-                n /= i;
-            }
-        }
+        return INT_MAX;
     }
-    if (n > 1)
+    if (x1 > 1001 && y1 > 1001)
     {
-        ans /= n;
-        ans *= (n - 1);
+        return INT_MAX;
     }
-    return ans;
-}
-
-// O(Nlog(log(N)))
-
-void findCoprimes2(int a, int b)
-{
-    for (int i = a; i <= b; i++)
+    if (dp[x1][y1] != -1)
     {
-        cout << phi[i] << " ";
+        return dp[x1][y1];
     }
-    cout << endl;
+    if (y1 < 1001)
+    {
+        res = min(res, shortest_path(x1, y1 + 1));
+    }
+    if (x1 < 1001)
+    {
+        res = min(res, shortest_path(x1 + 1, y1));
+    }
+    if (y1 > 1)
+    {
+        res = min(res, shortest_path(x1, y1 - 1));
+    }
+    if (x1 > 1)
+    {
+        res = min(res, shortest_path(x1 - 1, y1));
+    }
+    dp[x1][y1] = 1 + res;
+    return dp[x1][y1];
 }
 
 signed main()
 {
-    setSeive();
     tci()
     {
-        int a, b;
-        cin >> a >> b;
-
-        findCoprimes2(a, b);
+        int x1, y1;
+        cin >> x1 >> y1 >> x2 >> y2 >> f1 >> f2;
+        memset(dp, -1, sizeof(dp));
+        cout << shortest_path(x1, y1) << endl;
     }
     return 0;
 }

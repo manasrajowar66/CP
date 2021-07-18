@@ -3,7 +3,7 @@ using namespace std;
 #define int long long
 #define lli long long int
 #define ll long long
-#define vi vector<int>
+#define vec vector<int>
 #define for0() for (int i = 0; i < n; i++)
 #define for1() for (int i = 1; i <= n; i++)
 #define backloop() for (int i = n - 1; i >= 0; i--)
@@ -13,24 +13,24 @@ using namespace std;
     while (t--)
 #define endl "\n"
 #define Mod 1000000007
+#define Max 50001
 int power(int, int);
 bool isPrime(int);
-bool is_prime[1000001];
-vi primes;
 
-void setSeive()
+vector<int> seive()
 {
+    bool is_prime[Max];
     is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i < 1000001; i++)
+    for (int i = 2; i < Max; i++)
     {
         is_prime[i] = true;
     }
 
-    for (int i = 2; i * i < 1000001; i++)
+    for (int i = 2; i * i < Max; i++)
     {
         if (is_prime[i])
         {
-            for (int j = i * i; j < 1000001; j += i)
+            for (int j = i * i; j < Max; j += i)
             {
                 if (is_prime[j])
                     is_prime[j] = false;
@@ -38,54 +38,38 @@ void setSeive()
         }
     }
 
-    for (int i = 2; i < 1000001; i++)
+    vector<int> arr;
+    for (int i = 2; i < Max; i++)
     {
         if (is_prime[i])
-            primes.push_back(i);
+        {
+            arr.push_back(i);
+        }
     }
+    return arr;
 }
 
-void segmentedSeive(int l, int r)
-{
-    if (l == 1)
-        l++;
-    int maxN = r - l + 1;
-    vi arr(maxN, 1);
-    for (auto p : primes)
-    {
-        if (p * p <= r)
-        {
-            int i = (l / p) * p;
-            if (i < l)
-                i += p;
-            for (; i <= r; i += p)
-            {
-                if (i != p)
-                {
-                    arr[i - l] = 0;
-                }
-            }
-        }
-    }
-    for (int i = 0; i < maxN; i++)
-    {
-        if (arr[i])
-        {
-            cout << i + l << " ";
-        }
-    }
-}
 signed main()
 {
-    setSeive();
+    vector<int> arr = seive();
     tci()
     {
-        int l, r;
-        cin >> l >> r;
-        segmentedSeive(l, r);
-        cout << endl;
+        int n;
+        cin >> n;
+        int ans = 1;
+        for (int i = 0; arr[i] <= n; i++)
+        {
+            int count = 0;
+            int k = arr[i];
+            while ((n / k) != 0)
+            {
+                count = (count + (n / k)) % Mod;
+                k = (k * arr[i]) % Mod;
+            }
+            ans = (ans * (count + 1) % Mod) % Mod;
+        }
+        cout << ans << endl;
     }
-
     return 0;
 }
 
