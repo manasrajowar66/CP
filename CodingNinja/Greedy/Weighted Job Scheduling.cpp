@@ -34,6 +34,25 @@ bool comp(pair<int, pair<int, int>> p1, pair<int, pair<int, int>> p2)
     return false;
 }
 
+int search_ind(pair<int, pair<int, int>> *arr, int start, int end, int item)
+{
+    int ans = -1;
+    while (start <= end)
+    {
+        int mid = (start + end) / 2;
+        if (arr[mid].ss.ss <= item)
+        {
+            ans = mid;
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+    return ans;
+}
+
 signed main()
 {
     int n;
@@ -56,15 +75,7 @@ signed main()
     // cout << "Ind Printing..." << endl;
     for (int i = 1; i < n; i++)
     {
-        int ind = -1;
-        for (int j = i - 1; j >= 0; j--)
-        {
-            if (arr[j].ss.ss <= arr[i].ss.ff)
-            {
-                ind = j;
-                break;
-            }
-        }
+        int ind = search_ind(arr, 0, i - 1, arr[i].ss.ff);
         if (ind != -1)
         {
             dp[i] = max(arr[i].ff + dp[ind], dp[i - 1]);
