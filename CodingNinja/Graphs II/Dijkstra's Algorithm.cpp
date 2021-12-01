@@ -13,13 +13,14 @@ using namespace std;
     while (t--)
 #define endl "\n"
 #define Mod 1000000007
+typedef pair<int, int> iPair;
 int power(int, int);
 bool isPrime(int);
 
 int findMinDist(int *dist, int v, int *visited)
 {
     int ind = -1;
-    int min_dist = INT_MAX;
+    int min_dist = LLONG_MAX;
     for (int i = 0; i < v; i++)
     {
         if (min_dist > dist[i] && !visited[i])
@@ -33,8 +34,7 @@ int findMinDist(int *dist, int v, int *visited)
 
 signed main()
 {
-    tci()
-    {
+
         int v, e;
         cin >> v >> e;
         int **edges = new int *[v];
@@ -46,31 +46,51 @@ signed main()
         {
             int a, b, d;
             cin >> a >> b >> d;
-            edges[a][b] = d;
-            edges[b][a] = d;
+            if (edges[a - 1][b - 1] == 0 || edges[a - 1][b - 1] > d)
+            {
+                edges[a - 1][b - 1] = d;
+                edges[b - 1][a - 1] = d;
+            }
         }
         int *dist = new int[v];
         int *visited = new int[v]();
         for (int i = 0; i < v; i++)
         {
-            dist[i] = INT_MAX;
+            dist[i] = LLONG_MAX;
         }
+        // priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
         dist[0] = 0;
-        for (int i = 0; i < v - 1; i++)
+        // pq.push({0, 0});
+
+        for (int j = 0; j < v - 1; j++)
         {
             int sv = findMinDist(dist, v, visited);
+            if (sv == -1)
+            {
+                break;
+            }
+            // int sv = pq.top().second;
+            // pq.pop();
             for (int i = 0; i < v; i++)
             {
-                if (edges[sv][i] != 0 && !visited[i])
+                if (sv != i && edges[sv][i] != 0 && !visited[i])
                 {
-                    dist[i] = min(dist[i], dist[sv] + edges[sv][i]);
+                    dist[i] = min(dist[i], (dist[sv] + (sv + 1) * edges[sv][i]));
+                    // pq.push({dist[i], i});
                 }
             }
             visited[sv] = 1;
         }
         for (int i = 0; i < v; i++)
         {
-            cout << i << " " << dist[i] << endl;
+            if (dist[i] == LLONG_MAX)
+            {
+                cout << -1 << endl;
+            }
+            else
+            {
+                cout << dist[i] << endl;
+            }
         }
         for (int i = 0; i < v; i++)
         {
@@ -79,7 +99,7 @@ signed main()
         delete[] edges;
         delete[] dist;
         delete[] visited;
-    }
+
     return 0;
 }
 

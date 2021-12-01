@@ -1,32 +1,37 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define int long long
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
-signed main()
+using namespace std;
+int max_path;
+void dfs(vector<int> *edges, int *visited, int sv, int *firstBenchers, int path)
 {
-    string s;
-    cin >> s;
-    int *arr = new int[10]();
-    for (int i = 0; i < s.length(); i++)
+    if (firstBenchers[sv])
+        return;
+    max_path = max(path, max_path);
+    visited[sv] = 1;
+    for (int i = 0; i < edges[sv].size(); i++)
     {
-        arr[s[i] - '0'] = 1;
-    }
-    int firstMaxi = INT_MIN, secondMaxi = INT_MIN;
-    for (int i = 0; i < 10; i++)
-    {
-        if (arr[i] == 1)
+        int next = edges[sv][i];
+        if (!visited[next] && !firstBenchers[next])
         {
-            firstMaxi = max(firstMaxi, i);
+            dfs(edges, visited, next, firstBenchers, path + 1);
         }
     }
-    for (int i = 0; i < 10; i++)
+}
+int GetJumpCount(int input1, int input2, int input3, int input4[])
+{
+    int total_jumps = 0;
+    for (int i = 0; i < input3; i++)
     {
-        if (arr[i] == 1 && firstMaxi != i)
-        {
-            secondMaxi = max(secondMaxi, i);
-        }
+        int temp = (input4[i] % input1 + ((input4[i] / input1)) * input2);
+        total_jumps += input4[i] / input1 + temp / input1 + ((temp % input1) ? 1 : 0);
     }
-    cout << firstMaxi * 10 + secondMaxi << endl;
-    delete[] arr;
-    return 0;
+    return total_jumps;
+}
+
+int main()
+{
+    int n = 4;
+    cout << (n);
 }
