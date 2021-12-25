@@ -14,7 +14,34 @@ using namespace std;
 #define endl "\n"
 #define Mod 1000000007
 
+string solve()
+{
+    string s;
+    cin >> s;
+    int n = s.length();
+    if (n % 2 == 1)
+    {
+        return "NO";
+    }
+    else
+    {
+        int i = 0, mid = n / 2;
+        while (mid < n)
+        {
+            if (s[i] != s[mid])
+                return "NO";
+            i++;
+            mid++;
+        }
+        return "YES";
+    }
+}
+
 signed main()
 {
+    tci()
+    {
+        cout << solve() << endl;
+    }
     return 0;
 }

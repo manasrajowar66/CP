@@ -1,37 +1,58 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
-int max_path;
-void dfs(vector<int> *edges, int *visited, int sv, int *firstBenchers, int path)
-{
-    if (firstBenchers[sv])
-        return;
-    max_path = max(path, max_path);
-    visited[sv] = 1;
-    for (int i = 0; i < edges[sv].size(); i++)
-    {
-        int next = edges[sv][i];
-        if (!visited[next] && !firstBenchers[next])
-        {
-            dfs(edges, visited, next, firstBenchers, path + 1);
-        }
-    }
-}
-int GetJumpCount(int input1, int input2, int input3, int input4[])
-{
-    int total_jumps = 0;
-    for (int i = 0; i < input3; i++)
-    {
-        int temp = (input4[i] % input1 + ((input4[i] / input1)) * input2);
-        total_jumps += input4[i] / input1 + temp / input1 + ((temp % input1) ? 1 : 0);
-    }
-    return total_jumps;
-}
+#define int long long
+#define lli long long int
+#define ll long long
+#define vec vector<int>
+#define for0() for (int i = 0; i < n; i++)
+#define for1() for (int i = 1; i <= n; i++)
+#define backloop() for (int i = n - 1; i >= 0; i--)
+#define tci() \
+    int t;    \
+    cin >> t; \
+    while (t--)
+#define endl "\n"
+#define Mod 1000000007
 
-int main()
+class Products
 {
-    int n = 4;
-    cout << (n);
+public:
+    float a, x, y;
+};
+void profitLoss(int n, Products p[])
+{
+    double cost = 0, seling = 0;
+    for (int i = 0; i < n; i++)
+    {
+        cost += p[i].a;
+        double temp = p[i].a + p[i].a * (float)(p[i].x / (float)100);
+        temp = temp - temp * (float)(p[i].y / (float)100);
+        seling += temp;
+    }
+    if (cost > seling)
+    {
+        cout << "Loss"
+             << " " << (int)(cost - seling);
+    }
+    else
+    {
+        cout << "Profit"
+             << " " << (int)(seling - cost);
+    }
+}
+signed main()
+{
+    int n;
+    float a, x, y;
+    cin >> n;
+    Products p[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a >> x >> y;
+        p[i].a = a;
+        p[i].x = x;
+        p[i].y = y;
+    }
+    profitLoss(n, p);
+    return 0;
 }

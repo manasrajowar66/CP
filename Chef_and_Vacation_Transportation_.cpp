@@ -16,5 +16,22 @@ using namespace std;
 
 signed main()
 {
+    tci()
+    {
+        int x, y, z;
+        cin >> x >> y >> z;
+        if ((x + y) < z)
+        {
+            cout << "PLANEBUS" << endl;
+        }
+        else if (z < (x + y))
+        {
+            cout << "TRAIN" << endl;
+        }
+        else
+        {
+            cout << "EQUAL" << endl;
+        }
+    }
     return 0;
 }
